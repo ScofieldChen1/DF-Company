@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <defs>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f0d060"/>
+      <stop offset="50%" stop-color="#d4a017"/>
+      <stop offset="100%" stop-color="#b8860b"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c0392b"/>
+      <stop offset="100%" stop-color="#9b59b6"/>
+    </linearGradient>
+  </defs>
+  <!-- Gold frame -->
+  <rect x="6" y="6" width="108" height="108" rx="6" stroke="url(#gold)" stroke-width="7" fill="#1a1408"/>
+  <!-- D outline -->
+  <path d="M34 28 V92 H58 C78 92 86 76 86 60 C86 44 78 28 58 28 H34 Z" stroke="url(#gold)" stroke-width="6" fill="none" stroke-linejoin="round"/>
+  <!-- F integrated (overlapping D left bar) -->
+  <path d="M44 28 V92" stroke="url(#gold)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M44 46 H68" stroke="url(#gold)" stroke-width="6" stroke-linecap="round"/>
+  <path d="M44 62 H62" stroke="url(#gold)" stroke-width="6" stroke-linecap="round"/>
+  <!-- Purple grinding bit / arrow -->
+  <path d="M52 54 L72 60 L52 66 Z" fill="url(#purple)"/>
+  <rect x="46" y="57" width="10" height="6" rx="1" fill="url(#purple)"/>
+</svg>
