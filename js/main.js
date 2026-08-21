@@ -417,7 +417,13 @@ function showInquiryFeedback(options = {}) {
 
 if (form) {
   const inquiryApiMeta = document.querySelector('meta[name="inquiry-api"]');
-  const inquiryApiUrl = (inquiryApiMeta && inquiryApiMeta.content.trim()) || '/api/inquiry';
+  let inquiryApiUrl = (inquiryApiMeta && inquiryApiMeta.content.trim()) || '/api/inquiry';
+
+  // GitHub Pages / 本地静态预览：无 /api，改走 Vercel 生产 API
+  const host = window.location.hostname;
+  if (host.endsWith('github.io') || host === 'localhost' || host === '127.0.0.1') {
+    inquiryApiUrl = 'https://df-company.vercel.app/api/inquiry';
+  }
 
   const feedbackCopy = {
     loading: {
