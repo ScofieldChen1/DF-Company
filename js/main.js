@@ -226,18 +226,25 @@ langOptions.forEach(btn => btn.addEventListener('click', () => setLanguage(btn.d
 const params = new URLSearchParams(window.location.search);
 const subjectMap = { quote: 'quote', custom: 'custom', partnership: 'partnership', product: 'product' };
 const productMap = {
+  'alloy-wheel': 'alloy-wheel',
+  'steel-paper': 'steel-paper',
+  'springness-plate': 'springness-plate',
+  'grinding-circle': 'grinding-circle',
+  'diamond-points': 'diamond-points',
+  'diamond-wheel': 'diamond-wheel',
   'polishing-wheel': 'polishing-wheel',
   'active-shank': 'active-shank',
-  'steel-paper': 'steel-paper',
-  'grinding-circle': 'grinding-circle',
-  'polishing-series': 'polishing-series',
-  'springness-plate': 'springness-plate',
-  'cowhide': 'cowhide',
+  cowhide: 'cowhide',
   'sponge-wheel': 'sponge-wheel',
+  'wool-wheel': 'wool-wheel',
+  'fiber-oil-stone': 'fiber-oil-stone',
+  'brush-series': 'brush-series',
   'latex-wheel': 'latex-wheel',
-  'diamond-points': 'diamond-points',
-  'alloy-wheel': 'alloy-wheel',
-  'diamond-wheel': 'diamond-wheel'
+  'psa-disc': 'psa-disc',
+  'polishing-series': 'polishing-series',
+  'rubber-point': 'rubber-point',
+  'oil-stone': 'oil-stone',
+  'abrasive-stick': 'abrasive-stick',
 };
 
 const subjectEl = document.querySelector('#subject');

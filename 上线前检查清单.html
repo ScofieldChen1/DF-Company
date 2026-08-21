@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>上线前检查清单</title>
+<style>
+body { font-family: "PingFang SC", "Microsoft YaHei", sans-serif; line-height: 1.6; max-width: 720px; margin: 40px auto; }
+h1 { text-align: center; font-size: 22pt; }
+.meta { text-align: center; color: #555; margin-bottom: 24px; }
+h2 { font-size: 14pt; margin-top: 24px; border-bottom: 1px solid #ccc; padding-bottom: 4px; }
+ul { margin: 8px 0 16px; }
+li { margin: 6px 0; }
+code { background: #f4f4f4; padding: 2px 6px; }
+pre { background: #f4f4f4; padding: 12px; font-size: 10pt; }
+</style>
+</head>
+<body>
+<h1>上线前检查清单 · Launch Checklist</h1>
+<p class="meta">南昌市东方特种磨具厂官网 · df-company.vercel.app<br>最后更新：2026 年 8 月 21 日</p>
+
+<h2>一、内容与合规</h2>
+<ul>
+<li>☐ <strong>成立年份一致</strong>：全站统一为 1990 年创立，年限表述为「三十余年」/「36 年」（2026−1990）</li>
+<li>☐ <strong>数据表述可核实</strong>：已移除「20+ 出口市场」「逾千家客户」「40+ 产品」等难以核实的数字；上线前请确认剩余表述（如「数百家合作企业」）是否有依据</li>
+<li>☐ <strong>隐私政策</strong>：privacy.html 已发布，页脚与联系表单已链接</li>
+<li>☐ <strong>ICP 备案</strong>（若使用国内域名/服务器）：在页脚添加备案号并链接至工信部查询页</li>
+<li>☐ <strong>联系方式准确</strong>：邮箱 CJ711226@163.com、地址、电话（如有）与对外名片一致</li>
+<li>☐ <strong>占位页面</strong>：导航中「研发与技术」「新闻中心」仍为占位 — 上线前隐藏或补充真实页面</li>
+</ul>
+
+<h2>二、功能与 API</h2>
+<ul>
+<li>☐ <strong>询盘表单（Production）</strong>：在 Vercel 项目 Settings → Environment Variables 配置 SMTP：SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, INQUIRY_TO（收件邮箱）</li>
+<li>☐ <strong>生产环境实测</strong>：在 df-company.vercel.app/contact.html 提交测试询盘，确认邮件送达</li>
+<li>☐ <strong>本地静态预览</strong>：python3 -m http.server 8765 可浏览页面，但 /api/inquiry 需 Vercel 或 Node 环境</li>
+<li>☐ <strong>404 / 错误页</strong>：可选添加简单 404.html</li>
+</ul>
+
+<h2>三、视觉与素材</h2>
+<ul>
+<li>☐ <strong>工厂实景</strong>：首页 Hero、关于页大门照片已替换为自有素材</li>
+<li>☐ <strong>产品图</strong>：images/products/*.png 与目录一致；缺失项（如 fiber-oil-stone）仍为 SVG 占位</li>
+<li>☐ <strong>页头背景图</strong>：Pexels 图用于 products/about/contact 页头 — 如需完全自有素材可后续替换</li>
+<li>☐ <strong>硬刷新 / 缓存</strong>：重大 CSS/图片更新后检查 ?v= 缓存参数是否 bump</li>
+</ul>
+
+<h2>四、SEO 与分享</h2>
+<ul>
+<li>☐ 各页 title 与 meta description 独特且准确</li>
+<li>☐ 添加 Open Graph / 社交分享图（可选，og:image）</li>
+<li>☐ 提交 sitemap 至 Google Search Console / 百度站长（如有国内推广需求）</li>
+<li>☐ favicon images/logo.svg 在各浏览器显示正常</li>
+</ul>
+
+<h2>五、性能与安全</h2>
+<ul>
+<li>☐ HTTPS 由 Vercel 自动提供 — 确认自定义域名（如有）证书有效</li>
+<li>☐ 第三方 CDN（Google Fonts、OpenCC-JS、jsDelivr）加载正常；国内访问慢时可考虑自托管字体</li>
+<li>☐ 确认 .env / SMTP 密钥未提交至 Git（应在 .gitignore 中）</li>
+<li>☐ 联系表单有基本必填校验（姓名、邮箱、留言）</li>
+</ul>
+
+<h2>六、部署与 Git</h2>
+<ul>
+<li>☐ 本地改动已 commit</li>
+<li>☐ 推送到 ScofieldChen1/DF-Company（需 GitHub 认证）</li>
+<li>☐ Vercel 自动部署成功，Production 分支为 main</li>
+<li>☐ 部署后抽查：首页、产品筛选、语言切换、联系表单、隐私政策页</li>
+</ul>
+
+<h2>七、上线后（可选）</h2>
+<ul>
+<li>☐ 监控 Vercel Function 日志（询盘 API 错误）</li>
+<li>☐ 定期更新产品目录与 GB/T 对照</li>
+<li>☐ 补充 About 页 image-placeholder 区域的真实照片</li>
+<li>☐ 添加英文/繁体 PDF 产品目录下载</li>
+</ul>
+
+<h2>快速命令</h2>
+<pre># 本地预览
+cd /Users/huangna/Projects/Dessel && python3 -m http.server 8765
+
+# 提交并推送
+git add -A && git status
+git commit -m "..."
+git push origin main</pre>
+</body>
+</html>
