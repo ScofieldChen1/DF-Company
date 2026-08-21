@@ -6,6 +6,18 @@
       "headers": [
         { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
       ]
+    },
+    {
+      "source": "/css/inquiry-feedback.css",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+      ]
+    },
+    {
+      "source": "/js/inquiry-feedback.js",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, must-revalidate" }
+      ]
     }
   ],
   "functions": {

@@ -8,6 +8,7 @@
   <title>Contact 联系 — Orient Abrasives</title>
   <link rel="icon" href="images/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css?v=20260821m">
+  <link rel="stylesheet" href="css/inquiry-feedback.css?v=20260821p">
 </head>
 <body class="lang-zh">
 
@@ -425,6 +426,30 @@
     </div>
   </section>
 
+  <div id="inquiry-feedback" class="inquiry-feedback" role="dialog" aria-modal="true" aria-labelledby="inquiry-feedback-title" aria-hidden="true">
+    <div class="inquiry-feedback__backdrop" data-inquiry-close></div>
+    <div class="inquiry-feedback__panel">
+      <div class="inquiry-feedback__stripe"></div>
+      <div class="inquiry-feedback__header">
+        <div class="inquiry-feedback__system">
+          <span class="inquiry-feedback__led" aria-hidden="true"></span>
+          <div class="inquiry-feedback__code-wrap">
+            <span class="inquiry-feedback__label"><span class="t-en">System</span><span class="t-zh">系统回执</span></span>
+            <span class="inquiry-feedback__code">INQ-READY</span>
+          </div>
+        </div>
+        <button type="button" class="inquiry-feedback__close" data-inquiry-close aria-label="Close">&times;</button>
+      </div>
+      <div class="inquiry-feedback__body">
+        <div class="inquiry-feedback__icon" aria-hidden="true"></div>
+        <h2 id="inquiry-feedback-title" class="inquiry-feedback__title"></h2>
+        <p class="inquiry-feedback__message"></p>
+        <div class="inquiry-feedback__meta" hidden></div>
+        <div class="inquiry-feedback__actions"></div>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -467,5 +492,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
   <script src="js/main.js?v=20260821n"></script>
+  <script src="js/inquiry-feedback.js?v=20260821p"></script>
 </body>
 </html>
