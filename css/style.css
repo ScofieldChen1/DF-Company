@@ -1,5 +1,5 @@
 /* Orient Abrasives — Industrial Global Supply Chain */
-@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Google Fonts removed for China/local reliability — system font stack below */
 
 :root {
   --bg: #e8e9eb;
@@ -26,8 +26,8 @@
   --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.2);
   --radius: 0;
   --radius-lg: 0;
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: "Barlow Condensed", "Inter", sans-serif;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
