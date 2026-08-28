@@ -26,9 +26,12 @@
   var pageDescZh = document.getElementById('page-desc-zh');
   var subGrid = document.getElementById('product-sub-grid');
   var ctaLink = document.getElementById('series-cta-link');
+  var backLink = document.getElementById('series-back-link');
+  var backBottom = document.getElementById('series-back-bottom');
+  var seriesUrl = '../products.html' + (seriesHash[data.series] || '');
 
   if (breadcrumbSeries) {
-    breadcrumbSeries.href = '../products.html' + (seriesHash[data.series] || '');
+    breadcrumbSeries.href = seriesUrl;
     breadcrumbSeries.querySelector('.t-zh').textContent = data.seriesLabel.zh;
     breadcrumbSeries.querySelector('.t-en').textContent = data.seriesLabel.en;
   }
@@ -47,13 +50,15 @@
   if (pageDescZh) pageDescZh.textContent = data.desc.zh;
   if (pageDescEn) pageDescEn.textContent = data.desc.en;
   if (ctaLink) ctaLink.href = '../contact.html?product=' + encodeURIComponent(data.contactProduct);
+  if (backLink) backLink.href = seriesUrl;
+  if (backBottom) backBottom.href = seriesUrl;
 
   if (!subGrid) return;
 
   subGrid.innerHTML = data.items.map(function (item) {
     return (
       '<article class="product-subitem">' +
-        '<div class="product-subitem-photo"><img src="' + item.image + '" alt=""></div>' +
+        '<div class="product-subitem-photo" aria-hidden="true"></div>' +
         '<div class="product-subitem-body">' +
           '<h3><span class="t-en">' + item.name.en + '</span><span class="t-zh">' + item.name.zh + '</span></h3>' +
           '<p class="t-en">' + item.desc.en + '</p>' +
