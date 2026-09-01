@@ -8,7 +8,7 @@
   <title>Contact 联系 — Orient Abrasives</title>
   <link rel="icon" href="images/logo.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css?v=20260821m">
-  <link rel="stylesheet" href="css/inquiry-feedback.css?v=20260901b">
+  <link rel="stylesheet" href="css/inquiry-feedback.css?v=20260901c">
 </head>
 <body class="lang-zh">
 
@@ -274,12 +274,7 @@
           </div>
         </div>
 
-        <div class="contact-form-shell" id="contact-form-shell">
-          <div class="contact-form-error" id="contact-form-error" role="alert" aria-live="assertive" hidden>
-            <span class="contact-form-error__text"></span>
-          </div>
-
-          <form id="contact-form" class="contact-form-shell__form fade-transition">
+        <form id="contact-form">
           <div class="form-group">
             <label><span class="t-en">Inquiring As *</span><span class="t-zh">询盘身份 *</span></label>
             <div class="form-type-toggle" role="radiogroup">
@@ -370,46 +365,37 @@
             <span class="t-en">By submitting this form, you agree to our <a href="privacy.html">Privacy Policy</a>. We use your information only to respond to your inquiry.</span>
             <span class="t-zh">提交表单即表示您同意我们的<a href="privacy.html">隐私政策</a>。我们仅将您的信息用于回复询盘。</span>
           </p>
-          <button type="submit" class="btn btn-primary contact-form-submit" style="width:100%;text-align:center">
-            <span class="contact-form-submit__label">
-              <span class="t-en">Send Inquiry — Response within 24h</span><span class="t-zh">发送询盘 — 24 小时内回复</span>
-            </span>
-            <span class="contact-form-submit__loading" hidden aria-hidden="true">
-              <span class="contact-form-submit__spinner"></span>
-              <span class="t-en">Submitting…</span><span class="t-zh">提交中...</span>
-            </span>
+          <button type="submit" class="btn btn-primary" style="width:100%;text-align:center">
+            <span class="t-en">Send Inquiry — Response within 24h</span><span class="t-zh">发送询盘 — 24 小时内回复</span>
           </button>
-          </form>
-
-          <div id="contact-form-success" class="contact-form-success fade-transition" hidden aria-live="polite">
-            <div class="contact-form-success__icon icon-bounce" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="6" y="12" width="28" height="22" rx="2" stroke="#52C41A" stroke-width="2.2" fill="#F6FFED"/>
-                <path d="M6 14L20 24L34 14" stroke="#52C41A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-                <path class="contact-form-success__fly" d="M36 8L42 4V16L36 12" stroke="#52C41A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="#52C41A" fill-opacity="0.15"/>
-              </svg>
-            </div>
-            <h2 class="contact-form-success__title">
-              <span class="t-en">Sent Successfully</span><span class="t-zh">发送成功</span>
-            </h2>
-            <p class="contact-form-success__body">
-              <span class="t-en">Your message has been sent to our work inbox right away.<br>Every partnership matters to us — we look forward to creating more success together.</span>
-              <span class="t-zh">您的宝贵意见已第一时间发送至我们的工作邮箱。<br>每一次合作都弥足珍贵，期待与您携手共创更多精彩。合作愉快！</span>
-            </p>
-            <p class="contact-form-success__note">
-              <span class="t-en">To send additional feedback, please submit the form again.</span>
-              <span class="t-zh">如需补充反馈，请重新提交表单。</span>
-            </p>
-            <div class="contact-form-success__actions">
-              <button type="button" class="contact-form-success__dismiss" id="contact-form-dismiss">
-                <span class="t-en">Got it</span><span class="t-zh">我知道了</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </section>
+
+  <div id="inquiry-feedback" class="inquiry-feedback" role="dialog" aria-modal="true" aria-labelledby="inquiry-feedback-title" aria-hidden="true">
+    <div class="inquiry-feedback__backdrop" data-inquiry-close></div>
+    <div class="inquiry-feedback__panel">
+      <div class="inquiry-feedback__stripe"></div>
+      <div class="inquiry-feedback__header">
+        <div class="inquiry-feedback__system">
+          <span class="inquiry-feedback__led" aria-hidden="true"></span>
+          <div class="inquiry-feedback__code-wrap">
+            <span class="inquiry-feedback__label"><span class="t-en">System</span><span class="t-zh">系统回执</span></span>
+            <span class="inquiry-feedback__code">INQ-READY</span>
+          </div>
+        </div>
+        <button type="button" class="inquiry-feedback__close" data-inquiry-close aria-label="Close">&times;</button>
+      </div>
+      <div class="inquiry-feedback__body">
+        <div class="inquiry-feedback__icon" aria-hidden="true"></div>
+        <h2 id="inquiry-feedback-title" class="inquiry-feedback__title"></h2>
+        <p class="inquiry-feedback__message"></p>
+        <div class="inquiry-feedback__meta" hidden></div>
+        <div class="inquiry-feedback__actions"></div>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <div class="container">
@@ -458,6 +444,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/opencc-js@1.0.5/dist/umd/full.js"></script>
   <script src="js/main.js?v=20260821n"></script>
-  <script src="js/inquiry-feedback.js?v=20260901b"></script>
+  <script src="js/inquiry-feedback.js?v=20260901c"></script>
 </body>
 </html>

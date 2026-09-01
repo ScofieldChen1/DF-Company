@@ -1,12 +1,7 @@
-(function initContactFormFeedback() {
-  const form = document.getElementById('contact-form');
-  const shell = document.getElementById('contact-form-shell');
-  const successView = document.getElementById('contact-form-success');
-  const errorBar = document.getElementById('contact-form-error');
-  const dismissBtn = document.getElementById('contact-form-dismiss');
-  const submitBtn = form && form.querySelector('.contact-form-submit');
-
-  if (!form || !shell || !successView || !submitBtn) return;
+(function initInquiryFeedbackModule() {
+  const form = document.querySelector('#contact-form');
+  const root = document.getElementById('inquiry-feedback');
+  if (!form || !root) return;
 
   const inquiryApiMeta = document.querySelector('meta[name="inquiry-api"]');
   let inquiryApiUrl = (inquiryApiMeta && inquiryApiMeta.content.trim()) || '/api/inquiry';
@@ -16,95 +11,196 @@
     inquiryApiUrl = 'https://df-company.vercel.app/api/inquiry';
   }
 
-  let isSubmitted = false;
-  let isSubmitting = false;
+  root.querySelectorAll('[data-inquiry-close]').forEach((el) => {
+    el.addEventListener('click', hideInquiryFeedback);
+  });
 
-  const errorCopy = {
-    empty: { en: 'Please fill in the required fields.', zh: '请填写反馈内容' },
-    failed: { en: 'Submission failed. Please try again later.', zh: '提交失败，请稍后重试' },
-    network: { en: 'Network error. Please check your connection and retry.', zh: '网络异常，请检查后重试' },
-    local: {
-      en: 'This preview server cannot submit inquiries. Open https://df-company.vercel.app/contact.html online, or run "npm start" locally (Node.js required).',
-      zh: '当前预览方式无法提交询盘。请在线打开 df-company.vercel.app/contact.html 测试，或在安装 Node.js 后运行 npm start。',
-    },
-  };
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && root.classList.contains('is-open') && !root.classList.contains('inquiry-feedback--loading')) {
+      hideInquiryFeedback();
+    }
+  });
 
-  function getLang() {
+  function hideInquiryFeedback() {
+    root.classList.remove('is-open');
+    root.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function buildInquiryRef() {
+    const now = new Date();
+    const pad = (value) => String(value).padStart(2, '0');
+    return `INQ-${now.getFullYear()}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}`;
+  }
+
+  function escapeHtml(text) {
+    return String(text)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function bilingualHtml(en, zh) {
+    return `<span class="t-en">${en}</span><span class="t-zh">${zh}</span>`;
+  }
+
+  function getCopyLang() {
+    if (document.body.classList.contains('lang-tw')) return 'tw';
     if (document.body.classList.contains('lang-en')) return 'en';
     return 'zh';
   }
 
-  function copy(key) {
-    const lang = getLang();
-    return errorCopy[key][lang] || errorCopy[key].zh;
-  }
+  function showInquiryFeedback(options = {}) {
+    const {
+      type = 'success',
+      code = '',
+      titleHtml = '',
+      messageHtml = '',
+      noteHtml = '',
+      metaHtml = '',
+      actions = [],
+    } = options;
 
-  function hideError() {
-    if (!errorBar) return;
-    errorBar.hidden = true;
-    errorBar.querySelector('.contact-form-error__text').textContent = '';
-  }
+    root.className = `inquiry-feedback inquiry-feedback--${type}`;
+    root.querySelector('.inquiry-feedback__code').textContent = code;
+    root.querySelector('.inquiry-feedback__title').innerHTML = titleHtml;
+    root.querySelector('.inquiry-feedback__message').innerHTML = messageHtml;
 
-  function showError(message) {
-    if (!errorBar) return;
-    errorBar.querySelector('.contact-form-error__text').textContent = message;
-    errorBar.hidden = false;
-    errorBar.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  function setSubmitting(loading) {
-    isSubmitting = loading;
-    submitBtn.disabled = loading;
-    submitBtn.classList.toggle('is-loading', loading);
-    submitBtn.setAttribute('aria-busy', loading ? 'true' : 'false');
-
-    const loadingEl = submitBtn.querySelector('.contact-form-submit__loading');
-    const labelEl = submitBtn.querySelector('.contact-form-submit__label');
-    if (loadingEl) {
-      loadingEl.hidden = !loading;
-      loadingEl.setAttribute('aria-hidden', loading ? 'false' : 'true');
+    let noteEl = root.querySelector('.inquiry-feedback__note');
+    if (!noteEl) {
+      noteEl = document.createElement('p');
+      noteEl.className = 'inquiry-feedback__note';
+      root.querySelector('.inquiry-feedback__message').after(noteEl);
     }
-    if (labelEl) {
-      labelEl.hidden = loading;
+    if (noteHtml) {
+      noteEl.innerHTML = noteHtml;
+      noteEl.hidden = false;
+    } else {
+      noteEl.innerHTML = '';
+      noteEl.hidden = true;
     }
-  }
 
-  function showSuccessView() {
-    isSubmitted = true;
-    hideError();
-    form.classList.add('is-hidden');
-    form.setAttribute('aria-hidden', 'true');
+    const meta = root.querySelector('.inquiry-feedback__meta');
+    if (metaHtml) {
+      meta.textContent = metaHtml;
+      meta.hidden = false;
+    } else {
+      meta.hidden = true;
+    }
 
-    successView.hidden = false;
-    requestAnimationFrame(() => {
-      successView.classList.add('is-visible');
+    const icon = root.querySelector('.inquiry-feedback__icon');
+    if (type === 'loading') {
+      icon.innerHTML = '<div class="inquiry-feedback__spinner"></div>';
+    } else if (type === 'error') {
+      icon.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M18 6L6 18M6 6l12 12"/>
+        </svg>
+      `;
+    } else {
+      icon.innerHTML = `
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5"/>
+        </svg>
+      `;
+    }
+
+    const actionsEl = root.querySelector('.inquiry-feedback__actions');
+    actionsEl.innerHTML = '';
+    actions.forEach((action) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = action.className || 'btn btn-primary';
+      btn.innerHTML = action.html;
+      btn.addEventListener('click', () => {
+        if (typeof action.onClick === 'function') action.onClick();
+        else hideInquiryFeedback();
+      });
+      actionsEl.appendChild(btn);
     });
 
-    dismissBtn.focus();
+    root.classList.add('is-open');
+    root.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+
+    const focusTarget = root.querySelector('.inquiry-feedback__actions .btn') ||
+      root.querySelector('.inquiry-feedback__close');
+    if (focusTarget) focusTarget.focus();
   }
 
-  function resetToEditState() {
-    isSubmitted = false;
-    successView.classList.remove('is-visible');
-    successView.hidden = true;
-    form.classList.remove('is-hidden');
-    form.removeAttribute('aria-hidden');
-    form.reset();
-    if (typeof syncCompanyField === 'function') syncCompanyField();
-    hideError();
-  }
-
-  dismissBtn.addEventListener('click', resetToEditState);
+  const feedbackCopy = {
+    loading: {
+      code: 'INQ-TRANSMIT',
+      label: { en: 'System', zh: '系统回执', tw: '系統回執' },
+      title: { en: 'Transmitting Inquiry', zh: '正在提交询盘', tw: '正在提交詢盤' },
+      message: {
+        en: 'Securely routing your request to our sales engineering team…',
+        zh: '正在将您的询盘安全发送至销售工程团队…',
+        tw: '正在將您的詢盤安全發送至銷售工程團隊…',
+      },
+    },
+    success: {
+      code: 'INQ-200 OK',
+      label: { en: 'System', zh: '系统回执', tw: '系統回執' },
+      title: { en: 'Sent Successfully', zh: '发送成功', tw: '發送成功' },
+      message: {
+        en: 'Your message has been sent to our work inbox right away.<br>Every partnership matters to us — we look forward to creating more success together.',
+        zh: '您的宝贵意见已第一时间发送至我们的工作邮箱。<br>每一次合作都弥足珍贵，期待与您携手共创更多精彩。合作愉快！',
+        tw: '您的寶貴意見已第一時間發送至我們的工作郵箱。<br>每一次合作都彌足珍貴，期待與您攜手共創更多精彩。合作愉快！',
+      },
+      note: {
+        en: 'To send additional feedback, please submit the form again.',
+        zh: '如需补充反馈，请重新提交表单。',
+        tw: '如需補充反饋，請重新提交表單。',
+      },
+      meta: { en: 'Response SLA · 24 Hours', zh: '响应承诺 · 24 小时内', tw: '響應承諾 · 24 小時內' },
+      action: { en: 'Got it', zh: '我知道了', tw: '我知道了' },
+    },
+    error: {
+      code: 'INQ-ERR',
+      label: { en: 'System', zh: '系统回执', tw: '系統回執' },
+      title: { en: 'Transmission Failed', zh: '提交未成功', tw: '提交未成功' },
+      message: {
+        en: 'Please try again or contact us directly by phone or email.',
+        zh: '请稍后重试，或直接通过电话 / 邮箱联系我们。',
+        tw: '請稍後重試，或直接通過電話 / 郵箱聯繫我們。',
+      },
+      retry: { en: 'Try Again', zh: '重新提交', tw: '重新提交' },
+      close: { en: 'Close', zh: '关闭', tw: '關閉' },
+    },
+    local: {
+      en: 'This preview server cannot submit inquiries. Open df-company.vercel.app/contact.html online, or run "npm start" locally (Node.js required).',
+      zh: '当前预览方式无法提交询盘。请在线打开 df-company.vercel.app/contact.html 测试，或在安装 Node.js 后运行 npm start。',
+      tw: '當前預覽方式無法提交詢盤。請在線打開 df-company.vercel.app/contact.html 測試，或在安裝 Node.js 後運行 npm start。',
+    },
+    network: {
+      en: 'Network error. Please check your connection and retry.',
+      zh: '网络异常，请检查后重试。',
+      tw: '網絡異常，請檢查後重試。',
+    },
+  };
 
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (isSubmitting || isSubmitted) return;
 
-    hideError();
+    const submitBtn = form.querySelector('[type="submit"]');
+    const copyLang = getCopyLang();
+    const langKey = copyLang === 'tw' ? 'tw' : copyLang === 'en' ? 'en' : 'zh';
 
     const messageField = form.querySelector('#message');
     if (messageField && !messageField.value.trim()) {
-      showError(copy('empty'));
+      showInquiryFeedback({
+        type: 'error',
+        code: 'INQ-VALIDATE',
+        titleHtml: bilingualHtml('Missing Content', '请填写反馈内容'),
+        messageHtml: bilingualHtml('Please fill in your message before submitting.', '提交前请填写留言内容。'),
+        actions: [{
+          className: 'btn btn-primary',
+          html: bilingualHtml('OK', '知道了'),
+          onClick: hideInquiryFeedback,
+        }],
+      });
       messageField.focus();
       return;
     }
@@ -124,7 +220,22 @@
       message: formData.get('message'),
     };
 
-    setSubmitting(true);
+    const loading = feedbackCopy.loading;
+    root.querySelector('.inquiry-feedback__label').innerHTML =
+      bilingualHtml(loading.label.en, loading.label[langKey]);
+
+    showInquiryFeedback({
+      type: 'loading',
+      code: loading.code,
+      titleHtml: bilingualHtml(loading.title.en, loading.title[langKey]),
+      messageHtml: bilingualHtml(loading.message.en, loading.message[langKey]),
+      actions: [],
+    });
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
+    }
 
     const controller = new AbortController();
     const timeoutMs = host.endsWith('vercel.app') || host.endsWith('github.io') ? 28000 : 12000;
@@ -147,22 +258,72 @@
         throw new Error(result.message || 'failed');
       }
 
-      showSuccessView();
+      const success = feedbackCopy.success;
+      root.querySelector('.inquiry-feedback__label').innerHTML =
+        bilingualHtml(success.label.en, success.label[langKey]);
+
+      showInquiryFeedback({
+        type: 'success',
+        code: success.code,
+        titleHtml: bilingualHtml(success.title.en, success.title[langKey]),
+        messageHtml: bilingualHtml(success.message.en, success.message[langKey]),
+        noteHtml: bilingualHtml(success.note.en, success.note[langKey]),
+        metaHtml: `${buildInquiryRef()} · ${success.meta[langKey]}`,
+        actions: [{
+          className: 'btn btn-primary',
+          html: bilingualHtml(success.action.en, success.action[langKey]),
+          onClick: hideInquiryFeedback,
+        }],
+      });
+
+      form.reset();
+      if (typeof syncCompanyField === 'function') syncCompanyField();
     } catch (error) {
+      const err = feedbackCopy.error;
+      let detail = '';
+
       if (error.name === 'AbortError') {
-        showError(copy('network'));
+        detail = feedbackCopy.network[langKey];
       } else if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
-        showError(copy('network'));
+        detail = feedbackCopy.network[langKey];
       } else if (error.message === 'local') {
-        showError(copy('local'));
+        detail = feedbackCopy.local[langKey];
       } else if (error.message && error.message !== 'failed') {
-        showError(error.message);
-      } else {
-        showError(copy('failed'));
+        detail = error.message;
       }
+
+      const detailHtml = detail
+        ? `<br><span style="opacity:0.85;font-size:0.84rem">${escapeHtml(detail)}</span>`
+        : '';
+
+      root.querySelector('.inquiry-feedback__label').innerHTML =
+        bilingualHtml(err.label.en, err.label[langKey]);
+
+      showInquiryFeedback({
+        type: 'error',
+        code: err.code,
+        titleHtml: bilingualHtml(err.title.en, err.title[langKey]),
+        messageHtml: bilingualHtml(err.message.en, err.message[langKey]) + detailHtml,
+        metaHtml: 'ERR · CHECK CONNECTION',
+        actions: [
+          {
+            className: 'btn btn-primary',
+            html: bilingualHtml(err.retry.en, err.retry[langKey]),
+            onClick: hideInquiryFeedback,
+          },
+          {
+            className: 'btn btn-outline-light',
+            html: bilingualHtml(err.close.en, err.close[langKey]),
+            onClick: hideInquiryFeedback,
+          },
+        ],
+      });
     } finally {
       window.clearTimeout(timeoutId);
-      setSubmitting(false);
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute('aria-busy');
+      }
     }
   });
 })();
