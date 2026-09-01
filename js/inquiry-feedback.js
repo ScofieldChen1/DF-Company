@@ -127,6 +127,28 @@
     if (focusTarget) focusTarget.focus();
   }
 
+  function isPreviewMode() {
+    return new URLSearchParams(window.location.search).get('preview') === 'inquiry-success';
+  }
+
+  function showSuccessFeedback() {
+    const success = feedbackCopy.success;
+    const langKey = getCopyLang() === 'tw' ? 'tw' : getCopyLang() === 'en' ? 'en' : 'zh';
+
+    showInquiryFeedback({
+      type: 'success',
+      code: success.code,
+      titleHtml: bilingualHtml(success.title.en, success.title[langKey]),
+      showSuccessGreeting: true,
+      metaHtml: success.meta[langKey],
+      actions: [{
+        className: 'btn btn-primary',
+        html: bilingualHtml(success.action.en, success.action[langKey]),
+        onClick: hideInquiryFeedback,
+      }],
+    });
+  }
+
   const feedbackCopy = {
     loading: {
       code: 'INQ-TRANSMIT',
@@ -141,9 +163,9 @@
     success: {
       code: 'INQ-200 OK',
       label: { en: 'System', zh: '系统回执', tw: '系統回執' },
-      title: { en: 'Sent Successfully', zh: '发送成功', tw: '發送成功' },
-      meta: { en: 'Response Commitment · Within 24 Hours', zh: '响应承诺 · 24 小时内', tw: '響應承諾 · 24 小時內' },
-      action: { en: 'OK', zh: '好的', tw: '好的' },
+      title: { en: 'Inquiry Received', zh: '发送成功', tw: '發送成功' },
+      meta: { en: "We'll contact you shortly — in about 24 hours", zh: '响应承诺 · 24 小时内', tw: '響應承諾 · 24 小時內' },
+      action: { en: 'Got it', zh: '好的', tw: '好的' },
     },
     error: {
       code: 'INQ-ERR',
@@ -194,6 +216,13 @@
     }
 
     if (!form.reportValidity()) return;
+
+    if (isPreviewMode()) {
+      showSuccessFeedback();
+      form.reset();
+      if (typeof syncCompanyField === 'function') syncCompanyField();
+      return;
+    }
 
     const formData = new FormData(form);
     const payload = {
@@ -248,18 +277,7 @@
 
       const success = feedbackCopy.success;
 
-      showInquiryFeedback({
-        type: 'success',
-        code: success.code,
-        titleHtml: bilingualHtml(success.title.en, success.title[langKey]),
-        showSuccessGreeting: true,
-        metaHtml: success.meta[langKey],
-        actions: [{
-          className: 'btn btn-primary',
-          html: bilingualHtml(success.action.en, success.action[langKey]),
-          onClick: hideInquiryFeedback,
-        }],
-      });
+      showSuccessFeedback();
 
       form.reset();
       if (typeof syncCompanyField === 'function') syncCompanyField();
@@ -312,20 +330,7 @@
     }
   });
 
-  if (new URLSearchParams(window.location.search).get('preview') === 'inquiry-success') {
-    const success = feedbackCopy.success;
-    const langKey = getCopyLang() === 'tw' ? 'tw' : getCopyLang() === 'en' ? 'en' : 'zh';
-    showInquiryFeedback({
-      type: 'success',
-      code: success.code,
-      titleHtml: bilingualHtml(success.title.en, success.title[langKey]),
-      showSuccessGreeting: true,
-      metaHtml: success.meta[langKey],
-      actions: [{
-        className: 'btn btn-primary',
-        html: bilingualHtml(success.action.en, success.action[langKey]),
-        onClick: hideInquiryFeedback,
-      }],
-    });
+  if (isPreviewMode()) {
+    showSuccessFeedback();
   }
 })();
