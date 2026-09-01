@@ -57,7 +57,7 @@
       code = '',
       titleHtml = '',
       messageHtml = '',
-      noteHtml = '',
+      showSuccessGreeting = false,
       metaHtml = '',
       actions = [],
     } = options;
@@ -65,20 +65,18 @@
     root.className = `inquiry-feedback inquiry-feedback--${type}`;
     root.querySelector('.inquiry-feedback__code').textContent = code;
     root.querySelector('.inquiry-feedback__title').innerHTML = titleHtml;
-    root.querySelector('.inquiry-feedback__message').innerHTML = messageHtml;
 
-    let noteEl = root.querySelector('.inquiry-feedback__note');
-    if (!noteEl) {
-      noteEl = document.createElement('p');
-      noteEl.className = 'inquiry-feedback__note';
-      root.querySelector('.inquiry-feedback__message').after(noteEl);
-    }
-    if (noteHtml) {
-      noteEl.innerHTML = noteHtml;
-      noteEl.hidden = false;
+    const messageEl = root.querySelector('.inquiry-feedback__message');
+    const greetingEl = document.getElementById('inquiry-success-greeting');
+
+    if (showSuccessGreeting && greetingEl) {
+      messageEl.hidden = true;
+      messageEl.innerHTML = '';
+      greetingEl.hidden = false;
     } else {
-      noteEl.innerHTML = '';
-      noteEl.hidden = true;
+      messageEl.hidden = false;
+      messageEl.innerHTML = messageHtml;
+      if (greetingEl) greetingEl.hidden = true;
     }
 
     const meta = root.querySelector('.inquiry-feedback__meta');
@@ -144,18 +142,8 @@
       code: 'INQ-200 OK',
       label: { en: 'System', zh: '系统回执', tw: '系統回執' },
       title: { en: 'Sent Successfully', zh: '发送成功', tw: '發送成功' },
-      message: {
-        en: 'Your message has been sent to our work inbox right away.<br>Every partnership matters to us — we look forward to creating more success together.',
-        zh: '您的宝贵意见已第一时间发送至我们的工作邮箱。<br>每一次合作都弥足珍贵，期待与您携手共创更多精彩。合作愉快！',
-        tw: '您的寶貴意見已第一時間發送至我們的工作郵箱。<br>每一次合作都彌足珍貴，期待與您攜手共創更多精彩。合作愉快！',
-      },
-      note: {
-        en: 'To send additional feedback, please submit the form again.',
-        zh: '如需补充反馈，请重新提交表单。',
-        tw: '如需補充反饋，請重新提交表單。',
-      },
-      meta: { en: 'Response SLA · 24 Hours', zh: '响应承诺 · 24 小时内', tw: '響應承諾 · 24 小時內' },
-      action: { en: 'Got it', zh: '我知道了', tw: '我知道了' },
+      meta: { en: 'Response Commitment · Within 24 Hours', zh: '响应承诺 · 24 小时内', tw: '響應承諾 · 24 小時內' },
+      action: { en: 'OK', zh: '好的', tw: '好的' },
     },
     error: {
       code: 'INQ-ERR',
@@ -259,16 +247,13 @@
       }
 
       const success = feedbackCopy.success;
-      root.querySelector('.inquiry-feedback__label').innerHTML =
-        bilingualHtml(success.label.en, success.label[langKey]);
 
       showInquiryFeedback({
         type: 'success',
         code: success.code,
         titleHtml: bilingualHtml(success.title.en, success.title[langKey]),
-        messageHtml: bilingualHtml(success.message.en, success.message[langKey]),
-        noteHtml: bilingualHtml(success.note.en, success.note[langKey]),
-        metaHtml: `${buildInquiryRef()} · ${success.meta[langKey]}`,
+        showSuccessGreeting: true,
+        metaHtml: success.meta[langKey],
         actions: [{
           className: 'btn btn-primary',
           html: bilingualHtml(success.action.en, success.action[langKey]),
@@ -326,4 +311,21 @@
       }
     }
   });
+
+  if (new URLSearchParams(window.location.search).get('preview') === 'inquiry-success') {
+    const success = feedbackCopy.success;
+    const langKey = getCopyLang() === 'tw' ? 'tw' : getCopyLang() === 'en' ? 'en' : 'zh';
+    showInquiryFeedback({
+      type: 'success',
+      code: success.code,
+      titleHtml: bilingualHtml(success.title.en, success.title[langKey]),
+      showSuccessGreeting: true,
+      metaHtml: success.meta[langKey],
+      actions: [{
+        className: 'btn btn-primary',
+        html: bilingualHtml(success.action.en, success.action[langKey]),
+        onClick: hideInquiryFeedback,
+      }],
+    });
+  }
 })();
