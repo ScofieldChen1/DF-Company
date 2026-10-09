@@ -56,9 +56,12 @@
   if (!subGrid) return;
 
   subGrid.innerHTML = data.items.map(function (item) {
+    var photoHtml = item.image
+      ? '<div class="product-subitem-photo"><img src="' + item.image + '" alt="" width="800" height="500" loading="lazy"></div>'
+      : '<div class="product-subitem-photo" aria-hidden="true"></div>';
     return (
       '<article class="product-subitem">' +
-        '<div class="product-subitem-photo" aria-hidden="true"></div>' +
+        photoHtml +
         '<div class="product-subitem-body">' +
           '<h3><span class="t-en">' + item.name.en + '</span><span class="t-zh">' + item.name.zh + '</span></h3>' +
           '<p class="t-en">' + item.desc.en + '</p>' +
