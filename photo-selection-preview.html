@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>缺图品类 · 候选照片预览</title>
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --card: #fff;
+      --ink: #111;
+      --muted: #666;
+      --accent: #b8860b;
+      --border: #ddd;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.5;
+    }
+    header {
+      background: #0f0f12;
+      color: #fff;
+      padding: 28px 20px;
+    }
+    header h1 { margin: 0 0 8px; font-size: 1.5rem; }
+    header p { margin: 0; color: #bbb; max-width: 720px; }
+    main { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
+    .slot {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 28px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.04);
+    }
+    .slot-head {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 16px;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+    .slot-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 2rem;
+      height: 2rem;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: .95rem;
+    }
+    .slot-head h2 { margin: 0; font-size: 1.25rem; }
+    .slot-head .en { color: var(--muted); font-size: .95rem; }
+    .slot-desc { color: var(--muted); margin: 0 0 16px; }
+    .empty-mock {
+      aspect-ratio: 16 / 10;
+      background: #0f0f12;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: #888;
+      font-size: .9rem;
+      margin-bottom: 18px;
+      border: 1px dashed #444;
+    }
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    figure {
+      margin: 0;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fafafa;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    figure:hover {
+      border-color: var(--accent);
+      box-shadow: 0 10px 24px rgba(184,134,11,.15);
+    }
+    figure img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: contain;
+      background: #f7f7f8;
+    }
+    figcaption {
+      padding: 10px 12px 12px;
+      font-size: .85rem;
+    }
+    .opt-id {
+      display: inline-block;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    .tag {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: .72rem;
+      font-weight: 600;
+    }
+    .tag-own { background: #e8f5e9; color: #2e7d32; }
+    .tag-retouch { background: #e3f2fd; color: #1565c0; }
+    .tag-web { background: #fff3e0; color: #e65100; }
+    .tag-warn { background: #ffebee; color: #c62828; }
+    .reply-box {
+      position: sticky;
+      bottom: 0;
+      background: rgba(15,15,18,.96);
+      color: #fff;
+      padding: 14px 20px;
+      border-top: 1px solid #333;
+    }
+    .reply-box p { margin: 0; max-width: 1100px; margin-inline: auto; font-size: .92rem; }
+    code { background: #222; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>产品页缺图 · 候选照片预览</h1>
+    <p>共 6 个品类目前为空。请逐一看图，回复编号即可，例如：<strong>1选B，2选A，3选A…</strong> 也可回复「自己上传」并附上照片。</p>
+  </header>
+
+  <main>
+    <section class="slot" id="slot-1">
+      <div class="slot-head">
+        <span class="slot-num">1</span>
+        <h2>平面砂布轮系列</h2>
+        <span class="en">Flap Disc Series · 粗磨/重切削</span>
+      </div>
+      <p class="slot-desc">特征：圆形平面砂布轮，砂布片叠在背板上，中心有安装孔。</p>
+      <div class="empty-mock">当前网站：空位</div>
+      <div class="options">
+        <figure>
+          <img src="images/products/photo-selection/refs/flap-disc-retouched.png" alt="修图后 平面砂布轮">
+          <figcaption>
+            <span class="opt-id">1-A</span><br>
+            你们修图批次 · 带黄色标签的平面砂布轮<br>
+            <span class="tag tag-retouch">修图后（推荐）</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/Klingspor_SMT324_flap_disc_2-wikimedia.jpg" alt="Wikimedia 平面砂布轮">
+          <figcaption>
+            <span class="opt-id">1-B</span><br>
+            Wikimedia · 白底高清平面砂布轮<br>
+            <span class="tag tag-web">网图 CC BY-SA</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/Flap_disk-wikimedia.jpg" alt="Wikimedia 平面砂布轮2">
+          <figcaption>
+            <span class="opt-id">1-C</span><br>
+            Wikimedia · 侧面角度<br>
+            <span class="tag tag-web">网图 公有领域</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/flap-disc-local.png" alt="站内旧图">
+          <figcaption>
+            <span class="opt-id">1-D</span><br>
+            站内已有旧图 springness-plate.png<br>
+            <span class="tag tag-own">站内素材</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="slot" id="slot-2">
+      <div class="slot-head">
+        <span class="slot-num">2</span>
+        <h2>钢纸磨片</h2>
+        <span class="en">Steel Paper Grinding Piece · 粗磨/重切削</span>
+      </div>
+      <p class="slot-desc">特征：薄圆盘、钢纸/纤维背基，表面覆磨料，用于角磨机。</p>
+      <div class="empty-mock">当前网站：空位</div>
+      <div class="options">
+        <figure>
+          <img src="images/products/photo-selection/refs/steel-paper-local.png" alt="站内钢纸磨片">
+          <figcaption>
+            <span class="opt-id">2-A</span><br>
+            站内已有旧图 steel-paper.png（已标注钢纸磨片）<br>
+            <span class="tag tag-own">站内素材（推荐）</span>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="slot-desc" style="margin-top:12px;color:#c62828;">修图批次与网图库中暂无更合适的钢纸磨片，建议补拍或单独提供。</p>
+    </section>
+
+    <section class="slot" id="slot-3">
+      <div class="slot-head">
+        <span class="slot-num">3</span>
+        <h2>无纺布拉丝轮</h2>
+        <span class="en">Non-Woven Wire Wheel · 抛光/精饰</span>
+      </div>
+      <p class="slot-desc">特征：筒形/鼓形，无纺布+磨料，中心多孔，用于金属拉丝。</p>
+      <div class="empty-mock">当前网站：空位</div>
+      <div class="options">
+        <figure>
+          <img src="images/products/photo-selection/refs/wire-wheel-candidate.png" alt="修图后 拉丝轮候选">
+          <figcaption>
+            <span class="opt-id">3-A</span><br>
+            修图批次 · 红色鼓形拉丝轮<br>
+            <span class="tag tag-retouch">修图后（请确认品类）</span>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="slot-desc" style="margin-top:12px;">若 3-A 不对，请上传你们自己的无纺布拉丝轮照片。</p>
+    </section>
+
+    <section class="slot" id="slot-4">
+      <div class="slot-head">
+        <span class="slot-num">4</span>
+        <h2>砂布卷</h2>
+        <span class="en">Emery Cloth Roll · 抛光/精饰</span>
+      </div>
+      <p class="slot-desc">特征：卷状砂布，可撕下使用，常见棕色涂附砂布。</p>
+      <div class="empty-mock">当前网站：空位</div>
+      <div class="options">
+        <figure>
+          <img src="images/products/photo-selection/refs/emery-roll-candidate.png" alt="修图后 砂布卷候选">
+          <figcaption>
+            <span class="opt-id">4-A</span><br>
+            修图批次 · 卷状砂布（请确认）<br>
+            <span class="tag tag-retouch">修图后</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/Emery_Cloth-wikimedia.jpg" alt="Wikimedia 砂布卷">
+          <figcaption>
+            <span class="opt-id">4-B</span><br>
+            Wikimedia · 卷状砂布实物<br>
+            <span class="tag tag-web">网图 CC（推荐备选）</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/emery-roll-wrong-ring.jpg" alt="曾误用砂圈">
+          <figcaption>
+            <span class="opt-id">4-C</span><br>
+            曾误挂：实际是砂圈，不是砂布卷<br>
+            <span class="tag tag-warn">品类不对 · 勿选</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="slot" id="slot-5">
+      <div class="slot-head">
+        <span class="slot-num">5</span>
+        <h2>无纺布磨盘</h2>
+        <span class="en">Non-Woven Disc · 清理/去毛刺</span>
+      </div>
+      <p class="slot-desc">特征：圆形无纺布磨盘，用于去毛刺、表面修整。</p>
+      <div class="empty-mock">当前网站：空位</div>
+      <div class="options">
+        <figure>
+          <img src="images/products/photo-selection/refs/nonwoven-disc-pink.png" alt="修图后 粉色磨盘">
+          <figcaption>
+            <span class="opt-id">5-A</span><br>
+            修图批次 · 粉色圆形磨盘（请确认是否为无纺布磨盘）<br>
+            <span class="tag tag-retouch">修图后</span>
+          </figcaption>
+        </figure>
+      </div>
+      <p class="slot-desc" style="margin-top:12px;">若 5-A 不对（可能是陶瓷磨盘），请补拍无纺布磨盘照片。</p>
+    </section>
+
+    <section class="slot" id="slot-6">
+      <div class="slot-head">
+        <span class="slot-num">6</span>
+        <h2>附柄碗形磨料丝刷</h2>
+        <span class="en">Mounted Bowl Brush · 清理/去毛刺</span>
+      </div>
+      <p class="slot-desc">特征：带金属柄，刷头呈碗形/杯形，磨料丝或尼龙磨料丝。</p>
+      <div class="empty-mock">当前网站：空位</div>
+      <div class="options">
+        <figure>
+          <img src="images/products/photo-selection/refs/cup-brush-web.jpg" alt="网图 杯形刷">
+          <figcaption>
+            <span class="opt-id">6-A</span><br>
+            网图参考 · 3" 尼龙杯形带柄刷<br>
+            <span class="tag tag-web">网图参考（推荐备选）</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/bowl-brush-candidate.png" alt="修图后 碗形刷候选">
+          <figcaption>
+            <span class="opt-id">6-B</span><br>
+            修图批次 · 多支花头刷组合（请确认）<br>
+            <span class="tag tag-retouch">修图后</span>
+          </figcaption>
+        </figure>
+        <figure>
+          <img src="images/products/photo-selection/refs/bowl-brush-wrong-flower.jpg" alt="曾误用花头刷">
+          <figcaption>
+            <span class="opt-id">6-C</span><br>
+            曾误挂：花头刷，不是碗形刷<br>
+            <span class="tag tag-warn">品类不对 · 勿选</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <div class="reply-box">
+    <p>看完后请回复：<code>1选A，2选A，3选A，4选B，5选A，6选A</code> — 或某几项写「自己上传」。我会按你的选择挂到产品页。</p>
+  </div>
+</body>
+</html>
